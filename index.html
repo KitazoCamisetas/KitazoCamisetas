@@ -10,7 +10,7 @@
   <meta property="og:image" content="kitazofoto.jpg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,800;0,900;1,800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,800;0,900;1,800&family=DM+Sans:wght@300;400;500;600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
@@ -43,6 +43,9 @@
       --border-accent: rgba(79,195,247,0.3);
       --font-display: 'Barlow Condensed', sans-serif;
       --font-body:    'DM Sans', sans-serif;
+      --font-cart:    'Poppins', sans-serif;
+      --lima:         #c6ff00;
+      --lima-dim:     rgba(198,255,0,0.12);
       --ease:        cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -1744,6 +1747,180 @@
       .talles-strip { padding: 20px; gap: 16px; }
       .talle-tag { width: 44px; height: 44px; font-size: 17px; }
     }
+
+    /* ══════════════════════════════════════
+       CARRITO — Cart icon, selector, drawer
+    ══════════════════════════════════════ */
+
+    /* Ícono en nav */
+    .cart-icon-btn {
+      position: relative; background: transparent; border: none;
+      color: var(--text); cursor: pointer; padding: 8px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s; flex-shrink: 0;
+    }
+    .cart-icon-btn:hover { background: var(--bg-3); }
+    .cart-icon-btn svg { width: 22px; height: 22px; display: block; }
+    .cart-badge {
+      position: absolute; top: 0; right: 0;
+      background: var(--lima); color: #000;
+      font-family: var(--font-cart); font-size: 10px; font-weight: 700;
+      min-width: 18px; height: 18px; border-radius: 100px;
+      display: flex; align-items: center; justify-content: center; padding: 0 4px;
+    }
+    @keyframes cartBounce {
+      0%,100% { transform: scale(1) rotate(0); }
+      20%      { transform: scale(1.4) rotate(-10deg); }
+      50%      { transform: scale(1.2) rotate(8deg); }
+      75%      { transform: scale(1.05) rotate(-3deg); }
+    }
+    .cart-bounce { animation: cartBounce 0.5s var(--ease); }
+
+    /* Botón agregar en tarjeta */
+    .card-add-btn {
+      background: var(--lima); color: #000; border: none;
+      padding: 10px 16px; border-radius: 100px;
+      font-family: var(--font-cart); font-weight: 700; font-size: 11px;
+      letter-spacing: 0.3px; cursor: pointer; white-space: nowrap;
+      display: flex; align-items: center; gap: 5px;
+      transition: transform 0.15s, background 0.2s;
+    }
+    .card-add-btn:hover  { transform: scale(1.04); background: #d4ff00; }
+    .card-add-btn:active { transform: scale(0.97); }
+    .card-add-btn svg    { flex-shrink: 0; }
+
+    /* Selector modal (bottom sheet) */
+    .selector-overlay {
+      display: none; position: fixed; inset: 0; z-index: 7000;
+      background: rgba(0,0,0,0.78); backdrop-filter: blur(8px);
+      align-items: flex-end; justify-content: center;
+    }
+    .selector-overlay.open { display: flex; }
+    .selector-modal {
+      background: #1c1c1c; border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px 24px 0 0; padding: 28px 24px 40px;
+      width: 100%; max-width: 500px;
+      font-family: var(--font-cart);
+      animation: sheetUp 0.3s var(--ease);
+      max-height: 92vh; overflow-y: auto;
+    }
+    @keyframes sheetUp { from { transform: translateY(100%) } to { transform: translateY(0) } }
+    .sel-handle { width: 40px; height: 4px; background: rgba(255,255,255,0.15); border-radius: 2px; margin: 0 auto 20px; }
+    .sel-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+    .sel-thumb  { width: 60px; height: 76px; object-fit: cover; object-position: top center; border-radius: 10px; flex-shrink: 0; background: var(--bg-3); }
+    .sel-nombre { font-weight: 700; font-size: 16px; color: var(--text); line-height: 1.2; }
+    .sel-sub    { font-size: 12px; color: var(--text-muted); margin: 3px 0; }
+    .sel-price  { font-size: 20px; font-weight: 700; color: var(--lima); }
+    .sel-section { margin-bottom: 20px; }
+    .sel-label  { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
+    .talle-opts { display: flex; gap: 8px; flex-wrap: wrap; }
+    .talle-opt  {
+      width: 52px; height: 52px; border-radius: 12px;
+      background: var(--bg-3); border: 2px solid var(--border);
+      color: var(--text-muted); font-family: var(--font-cart);
+      font-weight: 600; font-size: 13px; cursor: pointer;
+      transition: border-color 0.15s, background 0.15s, color 0.15s;
+    }
+    .talle-opt:hover  { border-color: rgba(198,255,0,0.4); }
+    .talle-opt.active { background: var(--lima); border-color: var(--lima); color: #000; }
+    .talle-opts.shake { animation: talleShake 0.4s; }
+    @keyframes talleShake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 60%{transform:translateX(6px)} 80%{transform:translateX(-3px)} }
+    .qty-row    { display: flex; align-items: center; gap: 14px; }
+    .qty-btn    {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--bg-3); border: 1px solid var(--border);
+      color: var(--text); font-size: 22px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s; line-height: 1; padding: 0;
+    }
+    .qty-btn:hover { background: var(--border); }
+    .qty-val    { font-weight: 700; font-size: 20px; color: var(--text); min-width: 28px; text-align: center; }
+    .person-toggle-row { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .person-toggle-row input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--lima); cursor: pointer; }
+    .person-toggle-label { font-size: 14px; color: var(--text); cursor: pointer; }
+    .person-price-note   { font-size: 12px; color: var(--text-muted); }
+    .person-fields { display: flex; gap: 10px; margin-top: 12px; }
+    .person-input  {
+      flex: 1; background: var(--bg-3); border: 1px solid var(--border);
+      color: var(--text); border-radius: 10px; padding: 11px 14px;
+      font-family: var(--font-cart); font-size: 13px; outline: none;
+      transition: border-color 0.2s;
+    }
+    .person-input:focus { border-color: var(--lima); }
+    .sel-confirm {
+      width: 100%; margin-top: 24px; padding: 16px; border: none;
+      border-radius: 14px; background: var(--lima); color: #000;
+      font-family: var(--font-cart); font-weight: 700; font-size: 15px;
+      cursor: pointer; transition: transform 0.15s, background 0.2s;
+    }
+    .sel-confirm:hover  { background: #d4ff00; }
+    .sel-confirm:active { transform: scale(0.98); }
+
+    /* Cart overlay + drawer */
+    .cart-overlay {
+      display: none; position: fixed; inset: 0; z-index: 7500;
+      background: rgba(0,0,0,0.65); backdrop-filter: blur(4px);
+    }
+    .cart-overlay.open { display: block; }
+    .cart-drawer {
+      position: fixed; top: 0; right: 0; height: 100dvh; width: min(400px, 100vw);
+      background: #111; border-left: 1px solid rgba(255,255,255,0.07);
+      z-index: 8000; transform: translateX(100%);
+      transition: transform 0.35s var(--ease);
+      display: flex; flex-direction: column;
+      font-family: var(--font-cart);
+    }
+    .cart-drawer.open { transform: translateX(0); }
+    .cart-dheader {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.07);
+      flex-shrink: 0;
+    }
+    .cart-dheader h3 { font-size: 19px; font-weight: 700; color: var(--text); }
+    .cart-dclose {
+      background: none; border: none; color: var(--text-muted);
+      font-size: 22px; cursor: pointer; padding: 4px 8px; border-radius: 6px;
+      transition: color 0.2s; line-height: 1;
+    }
+    .cart-dclose:hover { color: var(--text); }
+    .cart-items-wrap { flex: 1; overflow-y: auto; padding: 8px 20px 16px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+    .cart-empty { color: var(--text-muted); text-align: center; padding: 56px 0; font-size: 14px; }
+    .cart-item  { display: flex; align-items: flex-start; gap: 12px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .cart-item-info { flex: 1; min-width: 0; }
+    .cart-item-nombre { font-weight: 600; font-size: 14px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .cart-item-sub    { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .cart-item-meta   { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+    .cart-item-person { font-size: 11px; color: var(--accent); margin-top: 4px; }
+    .cart-promo-tag   { display: inline-block; background: var(--lima); color: #000; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 100px; margin-top: 5px; }
+    .cart-item-del    { background: none; border: none; color: var(--text-dim); cursor: pointer; padding: 4px; font-size: 18px; flex-shrink: 0; transition: color 0.2s; line-height: 1; }
+    .cart-item-del:hover { color: #ff5555; }
+    .cart-dfooter   { padding: 14px 20px 28px; border-top: 1px solid rgba(255,255,255,0.07); flex-shrink: 0; }
+    .cart-promo-banner { background: var(--lima-dim); border: 1px solid rgba(198,255,0,0.25); border-radius: 10px; padding: 10px 14px; font-size: 13px; font-weight: 600; color: var(--lima); margin-bottom: 14px; }
+    .cart-total-row   { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+    .cart-total-label { font-size: 13px; color: var(--text-muted); }
+    .cart-total-amt   { font-size: 28px; font-weight: 700; color: var(--text); }
+    .cart-savings     { font-size: 12px; color: var(--lima); font-weight: 600; text-align: right; margin-bottom: 16px; }
+    .cart-checkout-btn {
+      width: 100%; padding: 16px; border: none; border-radius: 14px;
+      background: var(--lima); color: #000;
+      font-family: var(--font-cart); font-weight: 700; font-size: 15px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: transform 0.15s, background 0.2s;
+    }
+    .cart-checkout-btn:hover  { background: #d4ff00; }
+    .cart-checkout-btn:active { transform: scale(0.98); }
+
+    /* Toast */
+    .cart-toast {
+      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(16px);
+      background: var(--lima); color: #000;
+      font-family: var(--font-cart); font-weight: 600; font-size: 14px;
+      padding: 12px 22px; border-radius: 100px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.45); z-index: 99999;
+      opacity: 0; transition: opacity 0.3s, transform 0.3s;
+      white-space: nowrap; pointer-events: none;
+    }
+    .cart-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   </style>
 </head>
 <body>
@@ -1762,6 +1939,10 @@
       <li><a href="#como-funciona">Cómo funciona</a></li>
       <li><a href="https://wa.me/message/SNWMMRR3DTAVD1" class="nav-cta-btn" target="_blank" rel="noopener">Pedir ahora</a></li>
     </ul>
+    <button class="cart-icon-btn" id="cartIconBtn" aria-label="Abrir carrito">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.99-1.61L23 6H6"/></svg>
+      <span class="cart-badge" id="cartBadge" hidden>0</span>
+    </button>
     <button class="hamburger" id="hamburgerBtn" aria-label="Abrir menú" aria-expanded="false">&#9776;</button>
   </nav>
 
@@ -2429,9 +2610,10 @@
         <div class="card-price">$${p.price.toLocaleString('es-AR')}</div>
         <div class="card-price-label">por unidad</div>
       </div>
-      <a href="${WA}" target="_blank" rel="noopener" class="card-wa-btn" aria-label="Consultar ${p.nombre} por WhatsApp">
-        ${WA_SVG} Consultar
-      </a>
+      <button class="card-add-btn" data-product-id="${p.id}" aria-label="Agregar ${p.nombre} al carrito">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.99-1.61L23 6H6"/></svg>
+        Agregar
+      </button>
     </div>
   </div>
 </div>`;
@@ -2512,6 +2694,7 @@
       });
 
       render();
+      window.KITAZO_PRODUCTS = PRODUCTS;
 
       // ── Slider navigation ──────────────────────────────────────────
       function moveSlider(slider, dir) {
@@ -2558,6 +2741,80 @@
 
     })();
   </script>
+
+  <!-- Selector de talle / cantidad -->
+  <div class="selector-overlay" id="selectorOverlay">
+    <div class="selector-modal" role="dialog" aria-modal="true" aria-label="Agregar al carrito">
+      <div class="sel-handle"></div>
+      <div class="sel-header">
+        <img class="sel-thumb" id="selThumb" alt="" hidden>
+        <div>
+          <div class="sel-nombre" id="selNombre"></div>
+          <div class="sel-sub"    id="selSub"></div>
+          <div class="sel-price"  id="selPrice"></div>
+        </div>
+      </div>
+
+      <div class="sel-section">
+        <div class="sel-label">Talle</div>
+        <div class="talle-opts" id="talleOpts">
+          <button class="talle-opt" data-talle="S">S</button>
+          <button class="talle-opt" data-talle="M">M</button>
+          <button class="talle-opt" data-talle="L">L</button>
+          <button class="talle-opt" data-talle="XL">XL</button>
+          <button class="talle-opt" data-talle="XXL">XXL</button>
+        </div>
+      </div>
+
+      <div class="sel-section">
+        <div class="sel-label">Cantidad</div>
+        <div class="qty-row">
+          <button class="qty-btn" id="selQtyMinus" aria-label="Restar">−</button>
+          <span   class="qty-val" id="selQtyVal">1</span>
+          <button class="qty-btn" id="selQtyPlus"  aria-label="Sumar">+</button>
+        </div>
+      </div>
+
+      <div class="sel-section">
+        <label class="person-toggle-row">
+          <input type="checkbox" id="personToggle">
+          <span class="person-toggle-label">Personalización</span>
+          <span class="person-price-note">+$350 c/u</span>
+        </label>
+        <div class="person-fields" id="personFields" hidden>
+          <input class="person-input" type="text" id="personNombre" placeholder="Nombre en la camiseta" maxlength="20">
+          <input class="person-input" type="text" id="personNumero" placeholder="Número" maxlength="2" style="max-width:80px">
+        </div>
+      </div>
+
+      <button class="sel-confirm" id="selConfirm">Agregar al carrito</button>
+    </div>
+  </div>
+
+  <!-- Cart drawer -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <div class="cart-drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-label="Carrito de compras">
+    <div class="cart-dheader">
+      <h3>Tu carrito</h3>
+      <button class="cart-dclose" id="cartClose" aria-label="Cerrar carrito">✕</button>
+    </div>
+    <div class="cart-items-wrap" id="cartItems"></div>
+    <div class="cart-dfooter" id="cartFooter" hidden>
+      <div id="cartPromoBanner"></div>
+      <div class="cart-total-row">
+        <span class="cart-total-label">Total</span>
+        <span class="cart-total-amt" id="cartTotalAmt">$0</span>
+      </div>
+      <div class="cart-savings" id="cartSavings" hidden></div>
+      <button class="cart-checkout-btn" id="cartCheckout">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Finalizar pedido por WhatsApp
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="cart-toast" id="cartToast"></div>
 
   <!-- Lightbox -->
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Vista ampliada">
@@ -2631,6 +2888,268 @@
         }
       });
     })();
+  </script>
+
+  <script>
+  /* ══════════════════════════════════════
+     CARRITO DE COMPRAS — Kitazo Camisetas
+  ══════════════════════════════════════ */
+  (function () {
+    const WA_LINK   = 'https://wa.me/message/SNWMMRR3DTAVD1';
+    const PRICE_STD = 2490;
+    const PROMO_2   = 4500;
+    const PROMO_3   = 6500;
+
+    // ── Estado ─────────────────────────────────────────────────────
+    let cart    = JSON.parse(localStorage.getItem('kitazo_cart') || '[]');
+    let pending = null;   // producto en el selector
+    let selTalle = null;
+    let selQty   = 1;
+
+    function save() { localStorage.setItem('kitazo_cart', JSON.stringify(cart)); }
+
+    // ── Cálculo promo ───────────────────────────────────────────────
+    function calcCart() {
+      const vjItems    = cart.filter(i => i.cats.includes('jugador'));
+      const otherItems = cart.filter(i => !i.cats.includes('jugador'));
+      const vjUnits    = vjItems.reduce((s, i) => s + i.cantidad, 0);
+      const vjNormal   = vjUnits * PRICE_STD;
+
+      let promoPrice = 0, rem = vjUnits;
+      while (rem >= 3) { promoPrice += PROMO_3; rem -= 3; }
+      if (rem === 2)   { promoPrice += PROMO_2; rem -= 2; }
+      if (rem === 1)   { promoPrice += PRICE_STD; rem -= 1; }
+
+      const savings    = vjNormal - promoPrice;
+      const vjPerson   = vjItems.reduce((s, i) => s + (i.person.on ? i.cantidad * 350 : 0), 0);
+      const otherTotal = otherItems.reduce((s, i) =>
+        s + i.cantidad * i.price + (i.person.on ? i.cantidad * 350 : 0), 0);
+
+      return { total: promoPrice + vjPerson + otherTotal, savings, vjUnits };
+    }
+
+    // ── Badge ───────────────────────────────────────────────────────
+    function updateBadge() {
+      const n     = cart.reduce((s, i) => s + i.cantidad, 0);
+      const badge = document.getElementById('cartBadge');
+      badge.textContent = n;
+      badge.hidden = n === 0;
+    }
+
+    function bounceIcon() {
+      const btn = document.getElementById('cartIconBtn');
+      btn.classList.remove('cart-bounce');
+      void btn.offsetWidth;
+      btn.classList.add('cart-bounce');
+      btn.addEventListener('animationend', () => btn.classList.remove('cart-bounce'), { once: true });
+    }
+
+    // ── Toast ───────────────────────────────────────────────────────
+    function showToast(msg) {
+      const t = document.getElementById('cartToast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3200);
+    }
+
+    // ── Selector ────────────────────────────────────────────────────
+    function openSelector(product) {
+      pending  = product;
+      selTalle = null;
+      selQty   = 1;
+
+      document.getElementById('selNombre').textContent = product.nombre;
+      document.getElementById('selSub').textContent    = product.sub;
+      document.getElementById('selPrice').textContent  = `$${product.price.toLocaleString('es-AR')}`;
+
+      const imgs  = product.imgs || (product.img ? [product.img] : []);
+      const thumb = document.getElementById('selThumb');
+      if (imgs.length) { thumb.src = imgs[0]; thumb.hidden = false; }
+      else              { thumb.hidden = true; }
+
+      document.querySelectorAll('.talle-opt').forEach(b => b.classList.remove('active'));
+      document.getElementById('talleOpts').classList.remove('shake');
+      document.getElementById('selQtyVal').textContent  = '1';
+      document.getElementById('personToggle').checked   = false;
+      document.getElementById('personFields').hidden    = true;
+      document.getElementById('personNombre').value     = '';
+      document.getElementById('personNumero').value     = '';
+
+      document.getElementById('selectorOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSelector() {
+      document.getElementById('selectorOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // ── Drawer ──────────────────────────────────────────────────────
+    function openDrawer()  {
+      renderDrawer();
+      document.getElementById('cartDrawer').classList.add('open');
+      document.getElementById('cartOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeDrawer() {
+      document.getElementById('cartDrawer').classList.remove('open');
+      document.getElementById('cartOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function renderDrawer() {
+      const wrap   = document.getElementById('cartItems');
+      const footer = document.getElementById('cartFooter');
+
+      if (cart.length === 0) {
+        wrap.innerHTML = '<p class="cart-empty">Tu carrito está vacío 🛒</p>';
+        footer.hidden = true;
+        return;
+      }
+      footer.hidden = false;
+
+      const { total, savings, vjUnits } = calcCart();
+      const promoActive = vjUnits >= 2;
+
+      wrap.innerHTML = cart.map((item, idx) => {
+        const isVJ   = item.cats.includes('jugador');
+        const pTag   = (isVJ && promoActive) ? `<div class="cart-promo-tag">🏷 Promo activa</div>` : '';
+        const person = item.person.on
+          ? `<div class="cart-item-person">✏️ ${item.person.nombre || '—'} #${item.person.numero || '—'} (+$${(item.cantidad * 350).toLocaleString('es-AR')})</div>`
+          : '';
+        return `
+        <div class="cart-item">
+          <div class="cart-item-info">
+            <div class="cart-item-nombre">${item.nombre}</div>
+            <div class="cart-item-sub">${item.sub}</div>
+            <div class="cart-item-meta">Talle ${item.talle} · ${item.cantidad} unidad${item.cantidad > 1 ? 'es' : ''}</div>
+            ${person}${pTag}
+          </div>
+          <button class="cart-item-del" data-idx="${idx}" aria-label="Eliminar">✕</button>
+        </div>`;
+      }).join('');
+
+      // Promo banner
+      const banner = document.getElementById('cartPromoBanner');
+      if (promoActive && savings > 0) {
+        const lbl = vjUnits >= 3 ? '3x' : '2x';
+        banner.innerHTML = `<div class="cart-promo-banner">🎉 Promo ${lbl} activa — ahorrás $${savings.toLocaleString('es-AR')}</div>`;
+      } else { banner.innerHTML = ''; }
+
+      document.getElementById('cartTotalAmt').textContent = `$${total.toLocaleString('es-AR')}`;
+      const savEl = document.getElementById('cartSavings');
+      if (savings > 0) { savEl.textContent = `Ahorrás $${savings.toLocaleString('es-AR')} con la promo`; savEl.hidden = false; }
+      else             { savEl.hidden = true; }
+    }
+
+    // ── Mensaje WhatsApp ────────────────────────────────────────────
+    function buildMessage() {
+      const { total, savings, vjUnits } = calcCart();
+
+      const lines = cart.map(item => {
+        const tipo = item.cats.includes('jugador') ? 'Versión Jugador' : 'Retro';
+        let line = `— ${item.cantidad}x ${item.nombre} · ${item.sub} · Talle ${item.talle} · ${tipo}`;
+        if (item.person.on)
+          line += `\n   ✏️ Personalización: ${item.person.nombre || '—'} #${item.person.numero || '—'}`;
+        return line;
+      }).join('\n');
+
+      const promoLine = (savings > 0)
+        ? `\n🎁 Promo ${vjUnits >= 3 ? '3x' : '2x'} aplicada — ahorrás $${savings.toLocaleString('es-AR')}`
+        : '';
+
+      return `Hola! Quiero hacer un pedido en Kitazo Camisetas 🙌\n\n${lines}\n\n💰 Total: $${total.toLocaleString('es-AR')}${promoLine}\n\nPor favor enviame los datos de pago. Muchas gracias!`;
+    }
+
+    // ── Eventos — Selector ──────────────────────────────────────────
+    document.getElementById('selectorOverlay').addEventListener('click', e => {
+      if (e.target.id === 'selectorOverlay') closeSelector();
+    });
+
+    document.querySelectorAll('.talle-opt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.talle-opt').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selTalle = btn.dataset.talle;
+      });
+    });
+
+    document.getElementById('selQtyMinus').addEventListener('click', () => {
+      if (selQty > 1) { selQty--; document.getElementById('selQtyVal').textContent = selQty; }
+    });
+    document.getElementById('selQtyPlus').addEventListener('click', () => {
+      selQty++; document.getElementById('selQtyVal').textContent = selQty;
+    });
+
+    document.getElementById('personToggle').addEventListener('change', e => {
+      document.getElementById('personFields').hidden = !e.target.checked;
+    });
+
+    document.getElementById('selConfirm').addEventListener('click', () => {
+      if (!selTalle) {
+        const row = document.getElementById('talleOpts');
+        row.classList.remove('shake'); void row.offsetWidth; row.classList.add('shake');
+        return;
+      }
+      const personOn = document.getElementById('personToggle').checked;
+      cart.push({
+        id:       Date.now(),
+        productId: pending.id,
+        nombre:   pending.nombre,
+        sub:      pending.sub,
+        cats:     pending.cats,
+        price:    pending.price,
+        talle:    selTalle,
+        cantidad: selQty,
+        person:   {
+          on:     personOn,
+          nombre: personOn ? document.getElementById('personNombre').value.trim() : '',
+          numero: personOn ? document.getElementById('personNumero').value.trim() : '',
+        }
+      });
+      save(); updateBadge(); bounceIcon(); closeSelector();
+      showToast('✓ Agregado al carrito');
+    });
+
+    // ── Eventos — Drawer ────────────────────────────────────────────
+    document.getElementById('cartIconBtn').addEventListener('click', openDrawer);
+    document.getElementById('cartOverlay').addEventListener('click', closeDrawer);
+    document.getElementById('cartClose').addEventListener('click', closeDrawer);
+
+    document.getElementById('cartItems').addEventListener('click', e => {
+      const btn = e.target.closest('.cart-item-del');
+      if (!btn) return;
+      cart.splice(parseInt(btn.dataset.idx), 1);
+      save(); updateBadge(); renderDrawer();
+    });
+
+    document.getElementById('cartCheckout').addEventListener('click', () => {
+      if (!cart.length) return;
+      const msg = buildMessage();
+      navigator.clipboard.writeText(msg)
+        .then(()  => showToast('📋 Pedido copiado — pegalo en WhatsApp'))
+        .catch(()  => {});
+      window.open(WA_LINK, '_blank');
+    });
+
+    // ── Abrir selector al clickear "Agregar" en tarjeta ─────────────
+    document.getElementById('productGrid').addEventListener('click', e => {
+      const btn = e.target.closest('.card-add-btn');
+      if (!btn) return;
+      const p = (window.KITAZO_PRODUCTS || []).find(p => p.id === parseInt(btn.dataset.productId));
+      if (p) openSelector(p);
+    });
+
+    // ESC cierra selector o drawer
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Escape') return;
+      if (document.getElementById('selectorOverlay').classList.contains('open')) closeSelector();
+      else closeDrawer();
+    });
+
+    // ── Init ────────────────────────────────────────────────────────
+    updateBadge();
+  })();
   </script>
 
 </body>
