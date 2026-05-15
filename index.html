@@ -2895,7 +2895,7 @@
      CARRITO DE COMPRAS — Kitazo Camisetas
   ══════════════════════════════════════ */
   (function () {
-    const WA_LINK   = 'https://wa.me/message/SNWMMRR3DTAVD1';
+    const WA_BASE   = 'https://wa.me/message/SNWMMRR3DTAVD1';
     const PRICE_STD = 2490;
     const PROMO_2   = 4500;
     const PROMO_3   = 6500;
@@ -3048,17 +3048,21 @@
 
       const lines = cart.map(item => {
         const tipo = item.cats.includes('jugador') ? 'Versión Jugador' : 'Retro';
-        let line = `— ${item.cantidad}x ${item.nombre} · ${item.sub} · Talle ${item.talle} · ${tipo}`;
+        let line = `— ${item.cantidad}x ${item.nombre} · Talle ${item.talle} · ${tipo}`;
         if (item.person.on)
-          line += `\n   ✏️ Personalización: ${item.person.nombre || '—'} #${item.person.numero || '—'}`;
+          line += `\nPersonalización: ${item.person.nombre || '—'} #${item.person.numero || '—'}`;
         return line;
       }).join('\n');
 
       const promoLine = (savings > 0)
-        ? `\n🎁 Promo ${vjUnits >= 3 ? '3x' : '2x'} aplicada — ahorrás $${savings.toLocaleString('es-AR')}`
+        ? `\n(Promo ${vjUnits >= 3 ? '3x' : '2x'} aplicada — ahorrás $${savings.toLocaleString('es-AR')})`
         : '';
 
-      return `Hola! Quiero hacer un pedido en Kitazo Camisetas 🙌\n\n${lines}\n\n💰 Total: $${total.toLocaleString('es-AR')}${promoLine}\n\nPor favor enviame los datos de pago. Muchas gracias!`;
+      return `Hola! Quiero hacer un pedido en Kitazo Camisetas 🙌\n\n[Lista de productos:]\n${lines}\n\n💰 Total: $${total.toLocaleString('es-AR')}${promoLine}\n\nPor favor enviame los datos de pago. Muchas gracias!`;
+    }
+
+    function buildWALink() {
+      return `${WA_BASE}?text=${encodeURIComponent(buildMessage())}`;
     }
 
     // ── Eventos — Selector ──────────────────────────────────────────
@@ -3125,11 +3129,9 @@
 
     document.getElementById('cartCheckout').addEventListener('click', () => {
       if (!cart.length) return;
-      const msg = buildMessage();
-      navigator.clipboard.writeText(msg)
-        .then(()  => showToast('📋 Pedido copiado — pegalo en WhatsApp'))
-        .catch(()  => {});
-      window.open(WA_LINK, '_blank');
+      const link = buildWALink();
+      navigator.clipboard.writeText(buildMessage()).catch(() => {});
+      window.open(link, '_blank');
     });
 
     // ── Abrir selector al clickear "Agregar" en tarjeta ─────────────
