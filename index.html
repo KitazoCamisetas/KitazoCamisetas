@@ -52,11 +52,7 @@
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     html {
       scroll-behavior: smooth;
-      scroll-padding-top: 90px; /* compensa la navbar fija en desktop */
-    }
-
-    @media (max-width: 768px) {
-      html { scroll-padding-top: 80px; } /* navbar mobile ≈ 70px + 10px aire */
+      scroll-padding-top: var(--nav-h, 90px);
     }
 
     body {
@@ -1269,9 +1265,9 @@
       #nav.scrolled { padding: calc(12px + env(safe-area-inset-top)) 24px 12px; }
       .nav-links { display: none; }
       .hamburger { display: flex; }
-      main { padding-top: calc(72px + env(safe-area-inset-top)); }
+      main { padding-top: var(--nav-h, 72px); }
       #hero {
-        min-height: calc(100vh - 72px - env(safe-area-inset-top));
+        min-height: calc(100vh - var(--nav-h, 72px));
         padding-top: 48px;
       }
       .section, .story-inner, .pricing-inner, .cta-inner { padding: 80px 24px; }
@@ -2642,6 +2638,18 @@
     } else {
       initSwipe();
     }
+
+    // Mide la altura real del nav y la expone como CSS var para el offset del contenido
+    function setNavHeight() {
+      var nav = document.getElementById('nav');
+      if (nav) document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px');
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setNavHeight);
+    } else {
+      setNavHeight();
+    }
+    window.addEventListener('resize', setNavHeight);
   })();
   </script>
 
