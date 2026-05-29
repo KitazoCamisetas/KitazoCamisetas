@@ -1684,6 +1684,16 @@
 
       /* Flag emoji: ajustar tamaño */
       .card-flag { font-size: 48px; }
+
+      /* Brand tag: se superpone con los dots en top-right — ocultar */
+      .card-brand { display: none; }
+
+      /* Deshabilitar hover lift en touch (causa salto y borde flash al tapear) */
+      .product-card.visible:hover {
+        transform: none;
+        border-color: var(--border);
+        box-shadow: none;
+      }
     }
 
     /* ── IMAGEN REAL DE PRODUCTO ── */
