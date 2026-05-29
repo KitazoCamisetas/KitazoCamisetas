@@ -1269,6 +1269,11 @@
       #nav.scrolled { padding: calc(12px + env(safe-area-inset-top)) 24px 12px; }
       .nav-links { display: none; }
       .hamburger { display: flex; }
+      main { padding-top: calc(72px + env(safe-area-inset-top)); }
+      #hero {
+        min-height: calc(100vh - 72px - env(safe-area-inset-top));
+        padding-top: 48px;
+      }
       .section, .story-inner, .pricing-inner, .cta-inner { padding: 80px 24px; }
       .section-full { padding: 80px 24px; }
       footer { padding: 40px 24px; flex-direction: column; align-items: flex-start; }
