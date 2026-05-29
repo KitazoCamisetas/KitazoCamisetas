@@ -1270,8 +1270,8 @@
         min-height: calc(100vh - var(--nav-h, 72px));
         padding-top: 48px;
       }
-      .section, .story-inner, .pricing-inner, .cta-inner { padding: 80px 24px; }
-      .section-full { padding: 80px 24px; }
+      .section, .story-inner, .pricing-inner, .cta-inner { padding: 52px 24px; }
+      .section-full { padding: 52px 24px; }
       footer { padding: 40px 24px; flex-direction: column; align-items: flex-start; }
       .ig-banner { padding: 32px; }
     }
@@ -1594,7 +1594,7 @@
 
     @media (max-width: 640px) {
       /* Layout general */
-      .tienda-inner { padding: 80px 16px; }
+      .tienda-inner { padding: 52px 16px; }
       .search-sort-row { flex-direction: column; align-items: stretch; }
       .sort-select { width: 100%; }
 
@@ -1658,8 +1658,8 @@
 
       /* Botón "+": circular, compacto, solo ícono */
       .card-add-btn {
-        width: 28px;
-        height: 28px;
+        width: 36px;
+        height: 36px;
         border-radius: 50%;
         padding: 0;
         gap: 0;
@@ -1670,8 +1670,8 @@
         flex-shrink: 0;
       }
       .card-add-btn svg {
-        width: 14px;
-        height: 14px;
+        width: 16px;
+        height: 16px;
       }
 
       /* Dots: mover de bottom-center a top-right, orientación vertical */
@@ -1702,6 +1702,40 @@
         border-color: var(--border);
         box-shadow: none;
       }
+
+      /* Hero headline: reducir tamaño */
+      .hero-headline { font-size: 52px; }
+
+      /* Hero sub: más compacto */
+      .hero-sub { font-size: 14px; line-height: 1.6; margin-bottom: 32px; }
+
+      /* Hero actions: botones full-width apilados */
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .btn-primary, .btn-ghost { width: 100%; justify-content: center; }
+
+      /* Hero stats: traer a mobile (hero-right estaba oculto desde ≤1024px) */
+      .hero-right {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        opacity: 1 !important;
+      }
+      .hero-logo-wrap { display: none; }
+      .hero-stats { justify-content: center; gap: 10px; }
+      .hero-stat { min-width: 76px; padding: 12px 14px; }
+      .hero-stat-num { font-size: 28px; }
+
+      /* Filter bar: scroll horizontal en vez de wrap */
+      .filter-bar {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 4px;
+        scrollbar-width: none;
+      }
+      .filter-bar::-webkit-scrollbar { display: none; }
     }
 
     /* ── IMAGEN REAL DE PRODUCTO ── */
@@ -1914,7 +1948,7 @@
       width: 100%; max-width: 500px;
       font-family: var(--font-cart);
       animation: sheetUp 0.3s var(--ease);
-      max-height: 92vh; overflow-y: auto;
+      max-height: 85dvh; overflow-y: auto;
     }
     @keyframes sheetUp { from { transform: translateY(100%) } to { transform: translateY(0) } }
     .sel-handle { width: 40px; height: 4px; background: rgba(255,255,255,0.15); border-radius: 2px; margin: 0 auto 20px; }
