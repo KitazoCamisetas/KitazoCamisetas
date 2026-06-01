@@ -6,7 +6,7 @@
   <title>Kitazo Camisetas — Camisetas de Fútbol Premium</title>
   <meta name="description" content="339 modelos de camisetas de fútbol retro y selecciones versión jugador. Calidad de jugador, precio accesible, con personalización.">
   <meta property="og:title" content="Kitazo Camisetas">
-  <meta property="og:description" content="La camiseta que siempre quisiste. 361 modelos retro y versión jugador con personalización.">
+  <meta property="og:description" content="La camiseta que siempre quisiste. 339 modelos retro y versión jugador con personalización.">
   <meta property="og:image" content="kitazofoto.jpg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1431,10 +1431,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: zoom-in;
+      cursor: default;
     }
 
     .card-img-bg { position: absolute; inset: 0; }
+    .card-img.has-img { cursor: zoom-in; }
 
     .card-flag {
       font-size: 80px;
@@ -2093,7 +2094,7 @@
   </nav>
 
   <!-- ── MOBILE MENU ── -->
-  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Menú de navegación">
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Menú de navegación">
     <button class="mobile-close" id="menuClose" aria-label="Cerrar menú">&#10005;</button>
     <a href="#catalogos" onclick="closeMobileMenu()">Catálogos</a>
     <a href="#tienda" onclick="closeMobileMenu()">Tienda</a>
@@ -2122,7 +2123,7 @@
           </span>
         </h1>
         <p class="hero-sub" id="heroSub">
-          361 modelos retro, versión jugador, shorts y manga larga. Calidad profesional, con personalización de nombre y número. Envíos a todo el país.
+          339 modelos retro, versión jugador, shorts y mangalarga. Calidad profesional, con personalización de nombre y número. Envíos a todo el país.
         </p>
         <div class="hero-actions" id="heroActions">
           <a href="#catalogos" class="btn-primary" aria-label="Ver catálogos de camisetas">
@@ -2209,7 +2210,7 @@
             Kitazo existe para ese momento exacto. <strong>Calidad de versión jugador, a precio accesible.</strong> Materiales de alto rendimiento, transpirables, con el ajuste profesional que sentís diferente desde la primera puesta. Personalizada con tu nombre y número, si querés.
           </p>
           <p>
-            361 modelos que van desde los clásicos retro que te hacen viajar en el tiempo, hasta las selecciones del mundo en su versión más premium, shorts y manga larga. Una prenda para cada historia.
+            339 modelos que van desde los clásicos retro que te hacen viajar en el tiempo, hasta las selecciones del mundo en su versión más premium, shorts y manga larga. Una prenda para cada historia.
           </p>
         </div>
       </div>
@@ -2236,7 +2237,7 @@
           </div>
           <div class="bento-card-body">
             <ul class="bento-features">
-              <li>361 modelos de colecciones históricas</li>
+              <li>339 modelos de colecciones históricas</li>
               <li>Calidad fan version premium</li>
               <li>Talles S a XXL disponibles</li>
               <li>Personalización con nombre y número</li>
@@ -2258,7 +2259,7 @@
           </div>
           <div class="bento-card-body">
             <ul class="bento-features">
-              <li>361 modelos de selecciones del mundo</li>
+              <li>339 modelos de selecciones del mundo</li>
               <li>Materiales de alto rendimiento</li>
               <li>Ajuste profesional versión jugador</li>
               <li>Parches oficiales disponibles</li>
@@ -2453,35 +2454,35 @@
 
         <div class="video-grid">
           <div class="video-card reveal" onclick="toggleVideo(this)">
-            <video src="video-1.mp4" loop playsinline preload="none"></video>
+            <video src="video-1.mp4" loop playsinline preload="none" onerror="this.closest('.video-card').style.display='none'"></video>
             <div class="video-play-overlay"><div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
           </div>
           <div class="video-card reveal" onclick="toggleVideo(this)">
-            <video src="video-2.mp4" loop playsinline preload="none"></video>
+            <video src="video-2.mp4" loop playsinline preload="none" onerror="this.closest('.video-card').style.display='none'"></video>
             <div class="video-play-overlay"><div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
           </div>
           <div class="video-card reveal" onclick="toggleVideo(this)">
-            <video src="video-3.mp4" loop playsinline preload="none"></video>
+            <video src="video-3.mp4" loop playsinline preload="none" onerror="this.closest('.video-card').style.display='none'"></video>
             <div class="video-play-overlay"><div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
           </div>
           <div class="video-card reveal" onclick="toggleVideo(this)">
-            <video src="video-4.mp4" loop playsinline preload="none"></video>
+            <video src="video-4.mp4" loop playsinline preload="none" onerror="this.closest('.video-card').style.display='none'"></video>
             <div class="video-play-overlay"><div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
           </div>
           <div class="video-card reveal" onclick="toggleVideo(this)">
-            <video src="video-5.mp4" loop playsinline preload="none"></video>
+            <video src="video-5.mp4" loop playsinline preload="none" onerror="this.closest('.video-card').style.display='none'"></video>
             <div class="video-play-overlay"><div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
           </div>
           <div class="video-card reveal" onclick="toggleVideo(this)">
-            <video src="video-6.mp4" loop playsinline preload="none"></video>
+            <video src="video-6.mp4" loop playsinline preload="none" onerror="this.closest('.video-card').style.display='none'"></video>
             <div class="video-play-overlay"><div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
           </div>
           <div class="video-card reveal" onclick="toggleVideo(this)">
-            <video src="video-7.mp4" loop playsinline preload="none"></video>
+            <video src="video-7.mp4" loop playsinline preload="none" onerror="this.closest('.video-card').style.display='none'"></video>
             <div class="video-play-overlay"><div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
           </div>
           <div class="video-card reveal" onclick="toggleVideo(this)">
-            <video src="video-8.mp4" loop playsinline preload="none"></video>
+            <video src="video-8.mp4" loop playsinline preload="none" onerror="this.closest('.video-card').style.display='none'"></video>
             <div class="video-play-overlay"><div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
           </div>
         </div>
@@ -2720,7 +2721,7 @@
         { id:88, nombre:'Barcelona',         sub:'Away — Rakuten Nike',              year:'2020', price:2490, cats:['jugador','clubes','nike'], pop:false, flag:'🔵🔴', grad:'linear-gradient(135deg,#111,#c8a000)', imgs:['assets/clubes/barcelona-away-20-frente.jpg','assets/clubes/barcelona-away-20-dorso.jpg'] },
         { id:89, nombre:'Barcelona',         sub:"Visitante Retro '01-02 — Nike",         year:'2001', price:2750, cats:['retro','clubes','nike'], pop:false, flag:'🔵🔴', grad:'linear-gradient(135deg,#c8a000,#004d98)', imgs:['assets/clubes/barcelona-away-retro-01-frente.jpg'] },
         /* ── Shorts Versión Jugador ─────────────────────────────────────── */
-        { id:90,  nombre:'Barcelona x Kobe',    sub:'Short Negro/Violeta — Nike',           year:'2024', price:2750, cats:['short','clubes','nike'],    pop:true,  flag:'🔵🔴', grad:'linear-gradient(135deg,#111,#4a0080)',    imgs:['assets/shorts/short-barcelona-kobe-negro-1.jpeg','assets/shorts/short-barcelona-kobe-negro-2.jpeg','assets/shorts/short-barcelona-kobe-negro-3.jpeg','assets/shorts/short-barcelona-kobe-negro-4.jpeg'] },
+        { id:90,  nombre:'Barcelona x Kobe',    sub:'Short Negro/Violeta — Nike',           year:'2024', price:2100, cats:['short','clubes','nike'],    pop:true,  flag:'🔵🔴', grad:'linear-gradient(135deg,#111,#4a0080)',    imgs:['assets/shorts/short-barcelona-kobe-negro-1.jpeg','assets/shorts/short-barcelona-kobe-negro-2.jpeg','assets/shorts/short-barcelona-kobe-negro-3.jpeg','assets/shorts/short-barcelona-kobe-negro-4.jpeg'] },
         { id:91,  nombre:'Newcastle United',    sub:'Short Home — Adidas',                  year:'2024', price:2100, cats:['short','clubes','adidas'],  pop:false, flag:'⬛',   grad:'linear-gradient(135deg,#f0f0f0,#111)',    imgs:['assets/shorts/short-newcastle-home-1.jpeg','assets/shorts/short-newcastle-home-2.jpeg'] },
         { id:92,  nombre:'Barcelona',           sub:'Short Away Azul/Rojo — Nike',          year:'2024', price:2100, cats:['short','clubes','nike'],    pop:false, flag:'🔵🔴', grad:'linear-gradient(135deg,#4040c0,#a50044)', imgs:['assets/shorts/short-barcelona-away-azul-1.jpeg','assets/shorts/short-barcelona-away-azul-2.jpeg'] },
         { id:93,  nombre:'Chelsea',             sub:'Short Away Blanco/Verde — Nike',       year:'2024', price:2100, cats:['short','clubes','nike'],    pop:false, flag:'🔵',   grad:'linear-gradient(135deg,#f0f0f0,#1a4a3a)', imgs:['assets/shorts/short-chelsea-away-blanco-1.jpeg','assets/shorts/short-chelsea-away-blanco-2.jpeg','assets/shorts/short-chelsea-away-blanco-3.jpeg'] },
@@ -3056,7 +3057,7 @@
         }
 
         return `<div class="product-card" role="listitem">
-  <div class="card-img">
+  <div class="card-img${imgs.length ? ' has-img' : ''}">
     ${mediaHtml}
     <div class="card-badge ${badgeCls}">${badgeLbl}</div>
     ${brand ? `<div class="card-brand">${brand}</div>` : ''}
@@ -3243,7 +3244,7 @@
         </label>
         <div class="person-fields" id="personFields" hidden>
           <input class="person-input" type="text" id="personNombre" placeholder="Nombre en la camiseta" maxlength="20">
-          <input class="person-input" type="number" id="personNumero" placeholder="Número" min="0" max="99" inputmode="numeric" style="max-width:80px">
+          <input class="person-input" type="text" id="personNumero" placeholder="Número" inputmode="numeric" maxlength="2" style="max-width:80px">
         </div>
       </div>
 
@@ -3561,6 +3562,18 @@
         return;
       }
       const personOn = document.getElementById('personToggle').checked;
+      if (personOn) {
+        const nombre = document.getElementById('personNombre').value.trim();
+        const numero = parseInt(document.getElementById('personNumero').value);
+        if (!nombre) {
+          document.getElementById('personNombre').focus();
+          return;
+        }
+        if (isNaN(numero) || numero < 0 || numero > 99) {
+          document.getElementById('personNumero').focus();
+          return;
+        }
+      }
       cart.push({
         id:       Date.now(),
         productId: pending.id,
@@ -3607,11 +3620,12 @@
       if (p) openSelector(p);
     });
 
-    // ESC cierra selector o drawer
+    // ESC cierra selector, drawer o menú mobile
     document.addEventListener('keydown', e => {
       if (e.key !== 'Escape') return;
       if (document.getElementById('selectorOverlay').classList.contains('open')) closeSelector();
-      else closeDrawer();
+      else if (document.getElementById('cartDrawer').classList.contains('open')) closeDrawer();
+      else if (document.getElementById('mobileMenu').classList.contains('open')) closeMobileMenu();
     });
 
     // ── Init ────────────────────────────────────────────────────────
@@ -3677,3 +3691,4 @@
 
 </body>
 </html>
+
