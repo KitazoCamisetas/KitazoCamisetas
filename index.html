@@ -1397,7 +1397,7 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 24px;
       margin-top: 28px;
-      min-height: 200px;
+      min-height: 1280px;
     }
 
     .product-card {
@@ -1588,6 +1588,59 @@
       line-height: 1.7;
     }
 
+    .pagination-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    .page-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      min-width: 38px;
+      height: 38px;
+      padding: 0 10px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: var(--font-body);
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .page-btn:hover:not(:disabled) {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .page-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #000;
+      font-weight: 700;
+    }
+
+    .page-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .page-wide { padding: 0 16px; }
+
+    .page-ellipsis {
+      color: var(--text-dim);
+      font-size: 13px;
+      padding: 0 2px;
+      user-select: none;
+    }
+
     @media (max-width: 1024px) {
       .product-grid { grid-template-columns: repeat(2, 1fr); }
       .results-counter { margin-left: 0; width: 100%; text-align: center; }
@@ -1600,7 +1653,7 @@
       .sort-select { width: 100%; }
 
       /* Grilla más compacta */
-      .product-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .product-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; min-height: 460px; }
 
       /* Card: bordes más pequeños */
       .product-card { border-radius: 14px; }
@@ -2342,6 +2395,8 @@
 
         <div class="product-grid" id="productGrid" role="list" aria-label="Productos"></div>
 
+        <div class="pagination-controls" id="paginationControls" aria-label="Paginación"></div>
+
         <div class="no-results" id="noResults" aria-live="polite">
           <div class="no-results-icon">🔍</div>
           <div class="no-results-title">Sin resultados</div>
@@ -3052,13 +3107,13 @@
       let activeFilter = 'todos';
       let activeSearch = '';
       let activeSort   = 'popular';
+      let currentPage  = 1;
+      const PAGE_SIZE  = 30;
 
       const grid     = document.getElementById('productGrid');
       const noRes    = document.getElementById('noResults');
       const cntVis   = document.getElementById('visibleCount');
       const cntTotal = document.getElementById('totalCount');
-
-      cntTotal.textContent = PRODUCTS.length;
 
       function getFiltered() {
         return PRODUCTS
@@ -3088,17 +3143,58 @@
         });
       }
 
-      function render() {
-        const list = getFiltered();
-        cntVis.textContent = list.length;
-        noRes.style.display = list.length ? 'none' : 'block';
+      function renderPagination(totalPages) {
+        const el = document.getElementById('paginationControls');
+        if (!el) return;
+        if (totalPages <= 1) { el.innerHTML = ''; return; }
+        const p = currentPage;
+        function pageBtn(n) {
+          return `<button class="page-btn${n === p ? ' active' : ''}" onclick="goToPage(${n})" aria-label="Página ${n}"${n === p ? ' aria-current="page"' : ''}>${n}</button>`;
+        }
+        let html = `<button class="page-btn page-wide" onclick="goToPage(${p - 1})"${p === 1 ? ' disabled' : ''} aria-label="Página anterior">← Anterior</button>`;
+        if (totalPages <= 7) {
+          for (let i = 1; i <= totalPages; i++) html += pageBtn(i);
+        } else {
+          html += pageBtn(1);
+          if (p > 3) html += '<span class="page-ellipsis">…</span>';
+          for (let i = Math.max(2, p - 1); i <= Math.min(totalPages - 1, p + 1); i++) html += pageBtn(i);
+          if (p < totalPages - 2) html += '<span class="page-ellipsis">…</span>';
+          html += pageBtn(totalPages);
+        }
+        html += `<button class="page-btn page-wide" onclick="goToPage(${p + 1})"${p === totalPages ? ' disabled' : ''} aria-label="Página siguiente">Siguiente →</button>`;
+        el.innerHTML = html;
+      }
+
+      window.goToPage = function(n) {
+        const totalPages = Math.ceil(getFiltered().length / PAGE_SIZE);
+        if (n < 1 || n > totalPages) return;
+        currentPage = n;
+        renderAll(false);
+        document.getElementById('tienda').scrollIntoView({ behavior: 'smooth' });
+      };
+
+      function renderAll(resetPage) {
+        if (resetPage) currentPage = 1;
+        const all        = getFiltered();
+        const total      = all.length;
+        const totalPages = Math.ceil(total / PAGE_SIZE);
+        const start      = (currentPage - 1) * PAGE_SIZE;
+        const end        = start + PAGE_SIZE;
+        const page       = all.slice(start, end);
+
+        const from = total ? start + 1 : 0;
+        const to   = Math.min(end, total);
+        cntVis.textContent   = total ? `${from}–${to}` : '0';
+        cntTotal.textContent = total;
+        noRes.style.display  = total ? 'none' : 'block';
 
         const prev = [...grid.querySelectorAll('.product-card')];
         if (prev.length) {
           prev.forEach(el => { el.style.opacity = '0'; el.style.transform = 'translateY(10px)'; });
-          setTimeout(() => paint(list), 220);
+          setTimeout(() => { paint(page); renderPagination(totalPages); }, 220);
         } else {
-          paint(list);
+          paint(page);
+          renderPagination(totalPages);
         }
       }
 
@@ -3110,20 +3206,23 @@
           b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
         });
         activeFilter = btn.dataset.filter;
-        render();
+        renderAll(true);
+        document.getElementById('tienda').scrollIntoView({ behavior: 'smooth' });
       });
 
       document.getElementById('searchInput').addEventListener('input', e => {
         activeSearch = e.target.value.toLowerCase().trim();
-        render();
+        renderAll(true);
+        document.getElementById('tienda').scrollIntoView({ behavior: 'smooth' });
       });
 
       document.getElementById('sortSelect').addEventListener('change', e => {
         activeSort = e.target.value;
-        render();
+        renderAll(true);
+        document.getElementById('tienda').scrollIntoView({ behavior: 'smooth' });
       });
 
-      render();
+      renderAll(true);
       window.KITAZO_PRODUCTS = PRODUCTS;
 
       // ── Slider navigation ──────────────────────────────────────────
